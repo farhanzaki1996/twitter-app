@@ -7,6 +7,7 @@ class Followers extends React.Component{
 
   state={
     followers:null,
+    toggle:false
   };
 
   componentDidMount()
@@ -16,6 +17,21 @@ class Followers extends React.Component{
           this.setState({followers:response.data})
       }).catch(error => console.log(error));
   }
+
+  componentDidUpdate()
+    {
+      axios.get(`/followers/${this.props.userID}.json`)
+      .then(response => {
+          this.setState({followers:response.data})
+      }).catch(error => console.log(error));
+    }
+
+    componentRefresh=()=>
+    {
+        let tempToggle=this.state.toggle;
+        tempToggle=!tempToggle;
+        this.setState({toggle:tempToggle});
+    }
 
   render(){
 
@@ -42,6 +58,8 @@ class Followers extends React.Component{
                             userID={userID[0]}
                             userName={singleUser['name']}
                             parentName='followers'
+                            refresher={()=>this.componentRefresh()}
+                          
                             
                         />
                         )

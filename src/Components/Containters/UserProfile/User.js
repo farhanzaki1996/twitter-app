@@ -34,6 +34,7 @@ class User extends Component {
         let currentUserID=this.props.currentUserID;
         let userID=this.props.userID;
         this.setState({isButtonDisabledFollow:true});
+        this.setState({isButtonDisabledUnFollow:false});
 
         //adding the user as a person who is followed(following) by the currentuser
         const followingRef= this.props.firebase.db.ref(`following/${currentUserID}/${userID}`);
@@ -46,12 +47,15 @@ class User extends Component {
         let currentUserName= this.state.currentUserObject.name;
         let currentUserHolder= {'name':currentUserName};
         followersRef.set(currentUserHolder);
+        this.props.refresher();
+        
 
     }
 
     unfollowHandler=()=>{
 
         this.setState({isButtonDisabledUnFollow:true});
+        this.setState({isButtonDisabledFollow:false});
         // setting IDs to variables
         let currentUserID=this.props.currentUserID;
         let userID=this.props.userID;
@@ -62,6 +66,8 @@ class User extends Component {
          //adding the current user as a follower to user upon follow click
          const followersRef= this.props.firebase.db.ref(`followers/${userID}/${currentUserID}`);
          followersRef.remove();
+         this.props.refresher();
+         
 
     }
 

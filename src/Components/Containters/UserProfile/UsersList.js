@@ -10,7 +10,8 @@ import { ListGroup} from 'reactstrap';
 class UserList extends Component{
 
     state={
-        users:{}
+        users:{},
+        toggle:false
     };
 
     componentDidMount()
@@ -18,6 +19,20 @@ class UserList extends Component{
         axios.get('/users.json').then (response =>{
             this.setState({users:response.data})
         }).catch(error=>console.log(error));
+    }
+
+    componentDidUpdate()
+    {
+        axios.get('/users.json').then (response =>{
+            this.setState({users:response.data})
+        }).catch(error=>console.log(error));
+    }
+
+    componentRefresh=()=>
+    {
+        let tempToggle=this.state.toggle;
+        tempToggle=!tempToggle;
+        this.setState({toggle:tempToggle});
     }
     
     render() {
@@ -36,6 +51,8 @@ class UserList extends Component{
                                 userID={singleUser}
                                 parentName='user-list'
                                 userName={this.state.users[singleUser].name}
+                                refresher={()=>this.componentRefresh()}
+                                
                             />
                  )
             });

@@ -5,7 +5,7 @@ import User from '../UserProfile/User'
 class Following extends React.Component{
 
   state={
-    following:null
+    following:null,
   };
 
   componentDidMount()
@@ -17,6 +17,22 @@ class Following extends React.Component{
       }).catch(error => console.log(error));
 
   }
+
+  componentDidUpdate()
+    {
+        axios.get(`/following/${this.props.userID}.json`)
+      .then(response => {
+          this.setState({following:response.data})
+      }).catch(error => console.log(error));
+    }
+
+    componentRefresh=()=>
+    {
+        let tempToggle=this.state.toggle;
+        tempToggle=!tempToggle;
+        this.setState({toggle:tempToggle});
+    }
+
 
   render(){
 
@@ -43,6 +59,8 @@ class Following extends React.Component{
                             userID={userID[0]}
                             userName={singleUser['name']}
                             parentName='following'
+                            refresher={()=>this.componentRefresh()}
+                            
                             
                         />
                         )
