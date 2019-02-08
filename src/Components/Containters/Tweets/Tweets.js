@@ -9,7 +9,8 @@ import {ListGroup} from 'reactstrap';
 class Tweets extends Component{
 
     state={
-        tweets:{}
+        tweets:{},
+        user:{}
     };
 
 
@@ -23,20 +24,31 @@ class Tweets extends Component{
 
         .catch(error=>console.log(error));
 
+
+        axios.get(`/users/${this.props.userID}.json`).then (response =>{
+            this.setState({user:response.data})
+        }).catch(error=>console.log(error));
+
     }
 
 
     render() {
 
         let tweetArray=null;
-        if(this.state.tweets != null)
+        if(this.state.tweets != null && this.state.user!=null)
         {
             tweetArray= Object.values(this.state.tweets)
             .map(singleTweetObj => {
                 return(
 
-                    <Tweet timeStamp={Object.keys(singleTweetObj)[0]} 
-                    tweetValue={Object.values(singleTweetObj)[0]}/>
+                    <Tweet 
+                    timeStamp={Object.keys(singleTweetObj)[0]} 
+                    key={Object.keys(singleTweetObj)[0]}
+                    tweetValue={Object.values(singleTweetObj)[0]}
+                    userName={this.state.user['name']}
+                    parentProp='ownfeed'
+                    
+                    />
                 )
             });
         }

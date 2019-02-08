@@ -1,10 +1,9 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import firebase from '../../Firebase/firebase';
 import {withFirebase} from '../../Firebase/index';
 import User from './User';
 import './User.css'
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { ListGroup} from 'reactstrap';
 
 
 
@@ -24,7 +23,7 @@ class UserList extends Component{
     render() {
 
         let UserList= null;
-        if(this.state.users != {})
+        if(this.state.users !== {})
         {
             UserList= Object.keys(this.state.users)
             .map(singleUser => {
@@ -33,6 +32,7 @@ class UserList extends Component{
                     return(
                             <User 
                                 currentUserID={this.props.currentUserID}
+                                key={singleUser}
                                 userID={singleUser}
                                 parentName='user-list'
                                 userName={this.state.users[singleUser].name}
@@ -49,7 +49,6 @@ class UserList extends Component{
             <ListGroup>
                 {UserList} 
             </ListGroup>
-            {UserList}
         </div>
         );
     }

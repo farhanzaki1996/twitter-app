@@ -21,38 +21,39 @@ class Following extends React.Component{
   render(){
 
     let listWithObjs=null;
+    let userID=null;
     if(this.state.following)
     {
      listWithObjs= Object.values(this.state.following);
-     listWithObjs=Object.values(listWithObjs);
+     userID= Object.keys(this.state.following);
     }
-
-    
     
     let UserList= null;
-        if(this.state.following != null)
-        {
-            UserList= listWithObjs
-            .map(singleUser => {
+    if(this.state.following != null)
+    {
+        UserList= listWithObjs
+        .map((singleUser,key) => {
 
-                let singleUserTemp=Object.keys(singleUser)[0];
-                
-                if(singleUserTemp !== this.props.currentUserID)
-                    return(
-                            <User 
-                                currentUserID={this.props.currentUserID}
-                                userID={singleUserTemp}
-                                parentName='following'
-                                
-                            />
-                 )
-            })
-        }
+            if(singleUser !== this.props.userID)
+            {
+                return(
+                        <User 
+                            currentUserID={this.props.userID}
+                            key={key}
+                            userID={userID[0]}
+                            userName={singleUser['name']}
+                            parentName='following'
+                            
+                        />
+                        )
+                }
+        })
+    }
 
     return(
         <div>
             <h3 className='listheading'>Following</h3>
-            <p>{UserList}</p>
+            {UserList}
         </div>
     );
   }

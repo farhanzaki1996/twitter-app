@@ -20,29 +20,32 @@ class Followers extends React.Component{
   render(){
 
     let listWithObjs=null;
+    let userID=null;
     if(this.state.followers)
     {
      listWithObjs= Object.values(this.state.followers);
-     listWithObjs=Object.values(listWithObjs);
+     userID= Object.keys(this.state.followers);
     }
     
     let UserList= null;
     if(this.state.followers != null)
     {
         UserList= listWithObjs
-        .map(singleUser => {
+        .map((singleUser,index) => {
 
-            let singleUserTemp=Object.keys(singleUser)[0];
-            
-            if(singleUserTemp !== this.props.currentUserID)
+            if(singleUser !== this.props.userID)
+            {
                 return(
                         <User 
-                            currentUserID={this.props.currentUserID}
-                            userID={singleUserTemp}
+                            currentUserID={this.props.userID}
+                            key={index}
+                            userID={userID[0]}
+                            userName={singleUser['name']}
                             parentName='followers'
                             
                         />
-             )
+                        )
+                }
         })
     }
 

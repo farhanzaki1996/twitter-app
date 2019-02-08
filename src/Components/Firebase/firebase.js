@@ -36,6 +36,8 @@ class Firebase {
 
   user = uid => this.db.ref(`users/${uid}`);
 
+  followersRef = userID =>this.db.ref(`followers/${userID}`)
+
   authUser=()=> {
     return new Promise(function (resolve, reject) {
         app.auth().onAuthStateChanged(function(user) {

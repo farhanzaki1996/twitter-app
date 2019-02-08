@@ -6,7 +6,6 @@ import TweetInput from '../Tweets/TweetInput';
 import Tweets from '../Tweets/Tweets';
 import UserList from './UsersList';
 import './UserProfile.css'
-import { Container, Row, Col } from 'reactstrap';
 import {Jumbotron} from 'reactstrap'
 import pic from '../../../assets/customer-service.png'
 

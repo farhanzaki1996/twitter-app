@@ -6,15 +6,9 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
-    NavItem,
-    NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem } from 'reactstrap';
+    } from 'reactstrap';
 
 import logo from '../../assets/twitter-logo-silhouette.png'
-import {Route, Link} from 'react-router-dom'
 import SignOutButton from '../Containters/Login/SignOutButton';
 
 
@@ -27,13 +21,6 @@ export const HOME = '/home';
 export const ACCOUNT = '/account';
 export const PASSWORD_FORGET = '/pw-forget';
 export const TWEET_INPUT='/tweetInput'
-
-
-/*
-const Navigation = (props) => (
-  <div>{props.authUser ? <NavigationAuth /> : <NavigationNonAuth />}</div>
-);
-*/
 
 class Navigation extends React.Component{
 
@@ -57,7 +44,7 @@ class Navigation extends React.Component{
           <Navbar expand="md" className='Navbar fixed-top navbar-light'>
                   <NavbarToggler onClick={this.toggle} />
                     <NavbarBrand>
-                    <img src={logo} width="30" height="30" class="d-inline-block align-top" alt=""/>
+                    <img src={logo} width="30" height="30" className="d-inline-block align-top" alt=""/>
                     </NavbarBrand>
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>

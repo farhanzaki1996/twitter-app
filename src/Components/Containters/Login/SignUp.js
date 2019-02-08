@@ -4,7 +4,7 @@ import { Button, Form, FormGroup, Label, Input, Row,Col } from 'reactstrap';
 import  {withFirebase}  from '../../Firebase/index';
 import classes from './login.css'
 import './login.css'
-import {LANDING,SIGN_UP,SIGN_IN,PASSWORD_FORGET,HOME,ACCOUNT} from 
+import {SIGN_IN,HOME} from 
 '../../Navigation/Navigation'
 
 
@@ -27,6 +27,7 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     error: null,
+    valid:true
 };
 
 class SignUpFormBase extends Component {
@@ -37,6 +38,7 @@ onSubmitHandler=(event)=>
 {
   const email=this.state.email;
   const name =this.state.name;
+  const city=this.state.city;
   const address=this.state.address;
   const address2=this.state.address2;
   const townState=this.state.townState;
@@ -47,7 +49,7 @@ onSubmitHandler=(event)=>
       .doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(authUser=> {
         return this.props.firebase
-          .user(authUser.user.uid).set({email,name,address,address2,townState,zip});
+          .user(authUser.user.uid).set({email,name,address,address2,townState,zip,city});
       })
       .then(() => {
         this.setState({state:INITIAL_STATE});
@@ -70,7 +72,7 @@ onChangeHandler=(event)=>
         <Row form>
           <Col md={6}>
             <FormGroup>
-              <label className='label' for="exampleEmail">Email</label>
+              <label className='label'>Email</label>
               <Input onChange={(event)=>this.onChangeHandler(event)} type="email" name="email" placeholder="Enter Your Email" />
             </FormGroup>
           </Col>

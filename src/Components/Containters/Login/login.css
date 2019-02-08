@@ -9,6 +9,12 @@
     font-size: medium;
 }
 
+.al{
+    align-items: center;
+    align-content: center;
+    align-self: center;
+}
+
 .main {
     background-color: #FFFFFF;
     width: auto;
@@ -24,7 +30,7 @@
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     font-size: 30px;
-    align-content:"center"
+    align-content:"left"
 }
 
 .un {
@@ -41,7 +47,7 @@ outline: none;
 box-sizing: border-box;
 border: 2px solid rgba(0, 0, 0, 0.02);
 margin-bottom: 50px;
-margin-left: 46px;
+margin-left: 97px;
 text-align: center;
 margin-bottom: 27px;
 font-family: 'Ubuntu', sans-serif;
@@ -67,7 +73,7 @@ outline: brown;
 box-sizing: border-box;
 border: 2px solid rgba(0, 0, 0, 0.02);
 margin-bottom: 50px;
-margin-left: 46px;
+margin-left: 97px;
 text-align: center;
 margin-bottom: 27px;
 font-family: 'Ubuntu', sans-serif;
@@ -94,7 +100,7 @@ font-family: 'Ubuntu', sans-serif;
     padding-bottom: 10px;
     padding-top: 10px;
     font-family: 'Ubuntu', sans-serif;
-    margin-left: 50%;
+    margin-left: 47%;
     font-size: 13px;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
 }

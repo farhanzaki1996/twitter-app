@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { Button} from 'reactstrap';
 import  {withFirebase}  from '../../Firebase/index';
-import {LANDING,SIGN_UP,SIGN_IN,PASSWORD_FORGET,HOME,ACCOUNT} from 
+import {SIGN_IN} from 
 '../../Navigation/Navigation';
 import './login.css'
 

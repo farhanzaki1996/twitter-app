@@ -1,60 +1,70 @@
 import React,{Component} from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import {ListGroupItem } from 'reactstrap';
 import {Button} from 'reactstrap'
+import  {withFirebase}  from '../../Firebase/index';
 import axios from 'axios'
 import './User.css'
 
 class User extends Component {
 
 
-
-    unfollowHandler=()=>
-    {   
-
-        axios.get(`/followers/${this.props.currentUserID}.json`)
-        .then(response => {
-            console.log(response.data)
-            this.setState({followers:response.data})
-        }).catch(error => console.log(error));
-
-        axios.get(`/following/${this.props.currentUserID}.json`)
-        .then(response => {
-            console.log(response.data);
-            this.setState({following:response.data})
-        }).catch(error => console.log(error));
-
-
-        /*
-        axios.delete(`/following/${this.props.currentUserID}/${this.props.userID}.json`).then(response =>
-            {   /*
-                let following=[...this.state.following];
-                following= following.filter(e=>e!==this.props.userID);
-                this.setState({following:following});
-                *//*
-
-            }).catch(error=> console.log(error));
-
-        axios.delete(`/followers/${this.props.userID}/${this.props.currentUserID}.json`);
-        */
+    state={
+        currentUserObject:null,
+        userObject:null,
+        isButtonDisabledFollow:false,
+        isButtonDisabledUnFollow:false,
     }
 
-    followHandler=()=>
+    componentDidMount()
     {   
-        
+
+        axios.get(`/users/${this.props.currentUserID}.json`).then (response =>{
+            this.setState({currentUserObject:response.data});
+        }).catch(error=>console.log(error));
+
+        axios.get(`/users/${this.props.userID}.json`).then (response =>{
+            this.setState({userObject:response.data});
+        }).catch(error=>console.log(error));
+    }
+
+
+    followHandler= ()=>
+    {   
+        // setting IDs to variables
         let currentUserID=this.props.currentUserID;
         let userID=this.props.userID;
-        axios.post(`/followers/${this.props.userID}.json`,{[currentUserID]:currentUserID}).catch(error => console.log(error));
+        this.setState({isButtonDisabledFollow:true});
 
-        axios.post(`/following/${this.props.currentUserID}.json`,{[userID]:userID}).then(response =>
-            {   
-                /*
-                let following=[...this.state.following];
-                following= following.push(this.state.userID);
-                this.setState({following:following});
-                */
+        //adding the user as a person who is followed(following) by the currentuser
+        const followingRef= this.props.firebase.db.ref(`following/${currentUserID}/${userID}`);
+        let userName=this.state.userObject.name;
+        let userHolder = {'name':userName};
+        followingRef.set(userHolder);
 
-            }).catch(error=> console.log(error));
+        //adding the current user as a follower to user upon follow click
+        const followersRef= this.props.firebase.db.ref(`followers/${userID}/${currentUserID}`);
+        let currentUserName= this.state.currentUserObject.name;
+        let currentUserHolder= {'name':currentUserName};
+        followersRef.set(currentUserHolder);
+
     }
+
+    unfollowHandler=()=>{
+
+        this.setState({isButtonDisabledUnFollow:true});
+        // setting IDs to variables
+        let currentUserID=this.props.currentUserID;
+        let userID=this.props.userID;
+         //adding the user as a person who is followed(following) by the currentuser
+         const followingRef= this.props.firebase.db.ref(`following/${currentUserID}/${userID}`);
+         followingRef.remove();
+ 
+         //adding the current user as a follower to user upon follow click
+         const followersRef= this.props.firebase.db.ref(`followers/${userID}/${currentUserID}`);
+         followersRef.remove();
+
+    }
+
     render(){
   
         let User=null;
@@ -62,24 +72,24 @@ class User extends Component {
 
             case('followers'):
                 User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
-                {this.props.userID}  
+                {this.props.userName}  
                         </ListGroupItem>
 
                 break;
             case('following'):
                 User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
-                        {this.props.userID}
+                        {this.props.userName}
                         <Button onClick={ ()=> this.unfollowHandler() } 
-                        className='btn btn-danger userbutton'>Unfollow</Button>  
+                        className='btn btn-light userbutton' disabled={this.state.isButtonDisabledUnFollow}>Unfollow</Button>  
                         </ListGroupItem>
                     break;
             case('user-list'):
                 User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
                         {this.props.userName}
                         <Button onClick={ ()=> this.followHandler() } 
-                        className='btn btn-success userbutton'>Follow</Button>
+                        className='btn btn-primary userbutton' disabled={this.state.isButtonDisabledFollow}>Follow</Button>
                          <Button onClick={ ()=> this.unfollowHandler() } 
-                            className='btn btn-danger userbutton'>Unfollow</Button>   
+                            className='btn btn-light userbutton' disabled={this.state.isButtonDisabledUnFollow}>Unfollow</Button>   
                         </ListGroupItem>
                     break;
             default:
@@ -87,9 +97,10 @@ class User extends Component {
             User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
                     {this.props.userName} 
                      <Button onClick={ ()=> this.followHandler() } 
-                         className='btn btn-success userbutton'>Follow</Button>
+                         className='btn btn-success userbutton' disabled={this.state.isButtonDisabledUnFollow}>Follow</Button>
                     <Button onClick={ ()=> this.unfollowHandler() } 
-                         className='btn btn-danger userbutton'>Unfollow</Button>   
+                         className='btn btn-danger userbutton' disabled={this.state.isButtonDisabledUnFollow}>Unfollow
+                         </Button>   
                  </ListGroupItem>
                 
         }
@@ -102,5 +113,5 @@ class User extends Component {
     }
 }
 
-export default User;
+export default withFirebase(User);
 

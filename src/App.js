@@ -7,9 +7,8 @@ import SignUpPage from './Components/Containters/Login/SignUp';
 import LandingPage from './Components/Landing Page/LandingPage';
 import TweetInput from './Components/Containters/Tweets/TweetInput';
 import UserProfile from './Components/Containters/UserProfile/UserProfile';
-import Tweets from './Components/Containters/Tweets/Tweets'
 import {withFirebase} from './Components/Firebase/index';
-import Navigation,{LANDING,SIGN_UP,SIGN_IN,CURRENT_USER_PROFILE,HOME,ACCOUNT,TWEET_INPUT,USER_PROFILE} from 
+import Navigation,{LANDING,SIGN_UP,SIGN_IN,CURRENT_USER_PROFILE,HOME,TWEET_INPUT,USER_PROFILE} from 
 './Components/Navigation/Navigation';
 
 class App extends Component {

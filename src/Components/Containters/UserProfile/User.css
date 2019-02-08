@@ -5,6 +5,10 @@
     padding: 5px;
   }
 
+  .userbutton:disabled{
+    color:red
+  }
+
   .listheading{
     color:rgba(11, 19, 90, 0.788);
     text-align: cennter;

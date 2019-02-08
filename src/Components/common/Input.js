@@ -7,12 +7,12 @@ const input=(props) => {
     let inputElement=null;
     let errorMessage=null;
 
-    if(props.validity && props.touched && props.elementConfig.type=='email')
+    if(props.validity && props.touched && props.elementConfig.type==='email')
     {
         errorMessage=<p className='ErrorMessag'>{props.message}</p>
     }
 
-    if(props.validity && props.touched && props.elementConfig.type=='tweet' && props.tweetMaxLength)
+    if(props.validity && props.touched && props.elementConfig.type==='tweet' && props.tweetMaxLength)
     {
         errorMessage=<p className='ErrorMessage'>{props.message}</p>
     }

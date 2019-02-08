@@ -82,7 +82,7 @@ class TweetInput extends Component{
         finalTweetObject[tweetTimeStamp]=tweetValue;
 
         axios.post(`/tweets/${this.props.userID}.json`,finalTweetObject)
-        .then(response=> console.log(response)).catch(error=>console.log(error));
+        .then(response=> response=> console.log(response)).catch(error=>console.log(error));
         }
     }
 
@@ -130,7 +130,7 @@ class TweetInput extends Component{
                         {form}
                         </Col>
                         <Col className='col-sm-3'>
-                            <Button clicked={ ()=> this.tweetSubmitHandler2() } 
+                            <Button onClick={ ()=> this.tweetSubmitHandler2() } 
                                     className='btn btn-dark'>Post Tweet!</Button>  
                         </Col> 
                     </Row>     

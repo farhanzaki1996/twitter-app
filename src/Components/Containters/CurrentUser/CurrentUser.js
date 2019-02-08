@@ -1,5 +1,4 @@
 import React,{Component} from 'react';
-import Aux from '../../../hoc/Auxil';
 import  {withFirebase}  from '../../Firebase/index';
 import UserProfile from '../UserProfile/UserProfile'
 
