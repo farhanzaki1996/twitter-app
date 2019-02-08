@@ -1,0 +1,45 @@
+/* Create three equal columns that floats next to each other */
+.profilecolumn {
+	background-color: rgba(228, 222, 225, 0.925);
+	float: left;
+	width: 33.33%;
+	padding: 10px;
+	height: 300px; /* Should be removed. Only for demonstration */
+	}
+
+	.backgroundcolor{
+		color:red;
+	}
+
+	.jumbotron{
+		padding: 70px 30px 70x 30px;
+		background-color: rgb(187, 174, 209);
+		background-image:url('../../../assets/back.jpg');
+		background-size:cover;
+		color: floralwhite;
+	}
+	.row-header{
+		margin: 10px auto;
+		padding: 0px auto;
+	}
+  
+  /* Clear floats after the columns */
+  .profilerow:after {
+	background-color: rgba(228, 222, 225, 0.925);
+	content: "";
+	display: table;
+	clear: both;
+	}
+	
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+	.profilecolumn {
+	  width: 100%;
+	}
+	}
+	
+	.testclass{
+
+		color: rgb(211, 110, 156)
+	}
+  

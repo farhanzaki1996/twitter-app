@@ -1,0 +1,13 @@
+.tweetfeedheading{
+
+font-family: Georgia, serif;
+font-size: 29px;
+letter-spacing: -0.8px;
+word-spacing: 1px;
+color: #000000;
+font-weight: normal;
+text-decoration: overline solid rgb(68, 68, 68);
+font-style: normal;
+font-variant: small-caps;
+text-transform: capitalize;
+}
