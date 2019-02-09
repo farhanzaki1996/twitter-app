@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import Input from '../../common/Input'
-import axios from 'axios'
-import {Button} from 'reactstrap'
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
+import {withFirebase} from '../../Firebase/index';
 import { Form,Row,Col,Container } from 'reactstrap';
 
 
@@ -28,7 +28,16 @@ class TweetInput extends Component{
         }
     },
     overallValidity:false,
+    user:null,
+    popoverOpen:false
  }
+
+ toggle=()=> {
+     if(this.state.overallValidity)
+     {
+        this.setState({popoverOpen: !this.state.popoverOpen});
+     }
+  }
 
     inputChangedHandler= (event, inputIdentifier)=>{
 
@@ -37,7 +46,6 @@ class TweetInput extends Component{
         const updatedLoginElement={...updatedLoginForm[inputIdentifier]};
         updatedLoginElement.value= event.target.value;
         updatedLoginElement.touched= true;
-        //updatedLoginElement.valid= this.checkValidity(updatedLoginElement.value,updatedLoginElement.validation)
         const checkValidityValues= this.checkValidity(updatedLoginElement.value,updatedLoginElement.validation)
         updatedLoginElement.valid=checkValidityValues[0];
         updatedLoginElement.tweetMaxLength=checkValidityValues[1];
@@ -69,7 +77,6 @@ class TweetInput extends Component{
 
     tweetSubmitHandler= (event) =>{
 
-        //////////PAST TIME STAMP AS ID ? /////////////////////////////
         if(this.state.overallValidity)
         {
         event.preventDefault();
@@ -79,10 +86,21 @@ class TweetInput extends Component{
         const tweetTimeStamp= new Date()
 
         const finalTweetObject={};
-        finalTweetObject[tweetTimeStamp]=tweetValue;
+        finalTweetObject['time']=tweetTimeStamp;
+        finalTweetObject['value']=tweetValue;
+        finalTweetObject['name']=this.props.userName;
 
-        axios.post(`/tweets/${this.props.userID}.json`,finalTweetObject)
-        .then(response=> response=> console.log(response)).catch(error=>console.log(error));
+        let currentUserID=this.props.userID;
+
+        const tweetRef= this.props.firebase.db.ref(`tweets/${currentUserID}/${tweetTimeStamp}`);
+        tweetRef.set(finalTweetObject);
+
+        
+        const updatedLoginForm={...this.state.loginForm};
+        const updatedLoginElement={...updatedLoginForm['tweet']};
+        updatedLoginElement.value= '';
+        updatedLoginForm['tweet']= updatedLoginElement;
+        this.setState({loginForm:updatedLoginForm});
         }
     }
 
@@ -90,16 +108,25 @@ class TweetInput extends Component{
 
         if(this.state.overallValidity)
         {
-        //get the tweet value fom the state
         const tweetValue= this.state.loginForm.tweet.value;
         const tweetTimeStamp= new Date()
 
         const finalTweetObject={};
-        finalTweetObject[tweetTimeStamp]=tweetValue;
+        finalTweetObject['time']=tweetTimeStamp;
+        finalTweetObject['value']=tweetValue;
+        finalTweetObject['name']=this.props.userName;
 
+        let currentUserID=this.props.userID;
 
-        axios.post(`/tweets/${this.props.userID}.json`,finalTweetObject)
-        .then(response=> console.log(response)).catch(error=>console.log(error));
+        const tweetRef= this.props.firebase.db.ref(`tweets/${currentUserID}/${tweetTimeStamp}`);
+        tweetRef.set(finalTweetObject);
+
+        const updatedLoginForm={...this.state.loginForm};
+        const updatedLoginElement={...updatedLoginForm['tweet']};
+        updatedLoginElement.value= '';
+        updatedLoginForm['tweet']= updatedLoginElement;
+        console.log(updatedLoginElement);
+        this.setState({loginForm:updatedLoginForm});
         }
     }
 
@@ -130,8 +157,12 @@ class TweetInput extends Component{
                         {form}
                         </Col>
                         <Col className='col-sm-3'>
-                            <Button onClick={ ()=> this.tweetSubmitHandler2() } 
-                                    className='btn btn-dark'>Post Tweet!</Button>  
+                            <Button type='button' id='Popover1' onClick={ ()=> this.tweetSubmitHandler2() } 
+                                    className='btn btn-dark'>Post Tweet!</Button>
+                            <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggle}>
+                                <PopoverHeader>Posted!</PopoverHeader>
+                                <PopoverBody>Refresh to see update</PopoverBody>
+                            </Popover>
                         </Col> 
                     </Row>     
                 </Container>
@@ -139,4 +170,4 @@ class TweetInput extends Component{
     }
 }
 
-export default TweetInput;
+export default withFirebase(TweetInput);

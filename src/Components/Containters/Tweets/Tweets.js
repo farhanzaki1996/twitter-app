@@ -38,13 +38,19 @@ class Tweets extends Component{
         if(this.state.tweets != null && this.state.user!=null)
         {
             tweetArray= Object.values(this.state.tweets)
-            .map(singleTweetObj => {
+            tweetArray=tweetArray.reverse()
+
+            let tweetTime=Object.keys(this.state.tweets);
+            tweetTime=tweetTime.reverse()
+
+            tweetArray=tweetArray
+            .map((singleTweetObj,index) => {
                 return(
 
                     <Tweet 
-                    timeStamp={Object.keys(singleTweetObj)[0]} 
-                    key={Object.keys(singleTweetObj)[0]}
-                    tweetValue={Object.values(singleTweetObj)[0]}
+                    timeStamp={tweetTime[index]} 
+                    key={tweetTime[index]}
+                    tweetValue={singleTweetObj['value']}
                     userName={this.state.user['name']}
                     parentProp='ownfeed'
                     

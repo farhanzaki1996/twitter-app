@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import './User.css'
-import User from '../UserProfile/User'
+import './User.css';
+import lodash from 'lodash';
+import User from '../UserProfile/User';
 class Following extends React.Component{
 
   state={
@@ -17,12 +18,17 @@ class Following extends React.Component{
       }).catch(error => console.log(error));
 
   }
-
+  
+  
   componentDidUpdate()
     {
         axios.get(`/following/${this.props.userID}.json`)
       .then(response => {
+        if( !(lodash.isEqual(response.data,this.state.following)))
+        { 
           this.setState({following:response.data})
+          console.log('following');
+        }
       }).catch(error => console.log(error));
     }
 
@@ -76,5 +82,6 @@ class Following extends React.Component{
     );
   }
 }
+
 
 export default Following;

@@ -1,83 +1,101 @@
 import React,{Component} from 'react';
-import axios from 'axios';
 import Tweet from './Tweet';
 import '../UserProfile/User.css';
 import {ListGroup} from 'reactstrap';
+import {withFirebase} from '../../Firebase/index';
 
 
 
 class TweetFeed extends Component{
 
     state={
-        following:null,
-        user:{}
+        tweets:{},
     };
 
 
     componentDidMount()
     {
-        axios.get(`/following/${this.props.userID}.json`)
-        .then(response => {
+       let following =this.props.following;
+       let tweets={};
+        this.props.firebase.db.ref("tweets/").on('value', (snap) =>{
 
-            if(response.data)
-            {   
-                let followingArray= Object.keys(response.data);
-                this.setState({following:followingArray});
-            }
-            })
-        .catch(error=>console.log(error));
+            snap.forEach((childNodes)=>{
+         
+                
+               if(following.includes(childNodes.key))
+               {    
+                   let tempTweets={...tweets};
+                   tweets={...childNodes.val(),...tempTweets};
+               }
+           });
+           this.setState({tweets:tweets});
+         });
 
-
-        axios.get(`/users/${this.props.userID}.json`).then (response =>{
-            this.setState({user:response.data})
-        }).catch(error=>console.log(error));
-
-    }
-
-    getTweets=()=>{
-
-        this.state.following.map(followingID =>{
-
-            axios.get(`/tweets/${followingID}.json`).then(response => {
-
-            console.log(response.data)
-            })
-            .catch(error=>console.log(error));
-        });
     }
 
 
     render() {
 
-        if(this.state.following)
-        {
-            this.getTweets();
-        }
         /*
         let tweetArray=null;
-        if(this.state.tweets != null && this.state.user!=null)
+        let tweetTime=null;
+        if(this.state.tweets !=={})
         {
             tweetArray= Object.values(this.state.tweets)
-            .map(singleTweetObj => {
+            tweetArray=tweetArray.reverse()
+
+            tweetTime=Object.keys(this.state.tweets);
+            //console.log(tweetTime);
+
+            tweetTime=tweetTime.sort();
+            //console.log(tweetTime);
+
+
+            tweetArray=tweetArray
+            .map((singleTweetObj,index) => {
+                //console.log(singleTweetObj);
                 return(
 
                     <Tweet 
-                    timeStamp={Object.keys(singleTweetObj)[0]} 
-                    key={Object.keys(singleTweetObj)[0]}
-                    tweetValue={Object.values(singleTweetObj)[0]}
-                    userName={this.state.user['name']}
-                    parentProp='ownfeed'
+                    timeStamp={tweetTime[index]} 
+                    key={tweetTime[index]}
+                    tweetValue={singleTweetObj['value']}
+                    userName={singleTweetObj['name']}
+                    parentProp='tweetfeed'
                     
                     />
                 )
             });
         }*/
+
+        let timeArray=null;
+        let tweetRender=null;
+        if(this.state.tweets !=={})
+        {   
+            const tweetObject=this.state.tweets;
+            timeArray= Object.keys(this.state.tweets);
+            tweetRender=timeArray
+            .map((singleTweetID) => {
+
+                return(
+
+                    <Tweet 
+                    timeStamp={singleTweetID} 
+                    key={singleTweetID}
+                    tweetValue={tweetObject[singleTweetID].value}
+                    userName={tweetObject[singleTweetID].name}
+                    parentProp='tweetfeed'
+                    
+                    />
+                )
+            });
+        }
+
         return(
             <div>
             <h2 className='listheading'>{this.props.displayTitle}</h2>
             <ListGroup>
-                <p>Tweet</p>
-                {/*tweetArray*/} 
+                {tweetRender} 
             </ListGroup>
             </div>
         );
@@ -85,4 +103,4 @@ class TweetFeed extends Component{
           
 }
 
-export default TweetFeed;
+export default withFirebase(TweetFeed);

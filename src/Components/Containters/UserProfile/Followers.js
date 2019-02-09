@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import User from '../UserProfile/User';
-import './User.css'
+import './User.css';
 
 class Followers extends React.Component{
 
@@ -17,15 +17,7 @@ class Followers extends React.Component{
           this.setState({followers:response.data})
       }).catch(error => console.log(error));
   }
-
-  componentDidUpdate()
-    {
-      axios.get(`/followers/${this.props.userID}.json`)
-      .then(response => {
-          this.setState({followers:response.data})
-      }).catch(error => console.log(error));
-    }
-
+    
     componentRefresh=()=>
     {
         let tempToggle=this.state.toggle;

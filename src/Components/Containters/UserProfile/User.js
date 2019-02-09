@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {ListGroupItem } from 'reactstrap';
-import {Button} from 'reactstrap'
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import  {withFirebase}  from '../../Firebase/index';
 import axios from 'axios'
 import './User.css'
@@ -13,7 +13,12 @@ class User extends Component {
         userObject:null,
         isButtonDisabledFollow:false,
         isButtonDisabledUnFollow:false,
+        popoverOpen:false
     }
+
+    toggle=()=> {
+           this.setState({popoverOpen: !this.state.popoverOpen});
+     }
 
     componentDidMount()
     {   
@@ -49,7 +54,6 @@ class User extends Component {
         followersRef.set(currentUserHolder);
         this.props.refresher();
         
-
     }
 
     unfollowHandler=()=>{
@@ -85,17 +89,23 @@ class User extends Component {
             case('following'):
                 User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
                         {this.props.userName}
+                        <div>
                         <Button onClick={ ()=> this.unfollowHandler() } 
                         className='btn btn-light userbutton' disabled={this.state.isButtonDisabledUnFollow}>Unfollow</Button>  
+                        </div>
                         </ListGroupItem>
                     break;
             case('user-list'):
                 User= <ListGroupItem className='list-group-item list-group-item-action list-group-item-primary'>
                         {this.props.userName}
-                        <Button onClick={ ()=> this.followHandler() } 
+                        <div>
+                        <Button type='button' id='Popover1' onClick={ ()=> this.followHandler() } 
                         className='btn btn-primary userbutton' disabled={this.state.isButtonDisabledFollow}>Follow</Button>
-                         <Button onClick={ ()=> this.unfollowHandler() } 
-                            className='btn btn-light userbutton' disabled={this.state.isButtonDisabledUnFollow}>Unfollow</Button>   
+                        <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.toggle}>
+                                <PopoverHeader>Followed!</PopoverHeader>
+                                <PopoverBody>Refresh to see updated Tweet Feed</PopoverBody>
+                        </Popover>
+                        </div>
                         </ListGroupItem>
                     break;
             default:

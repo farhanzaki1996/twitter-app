@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import {withFirebase} from '../../Firebase/index';
+import lodash from 'lodash';
 import User from './User';
 import './User.css'
 import { ListGroup} from 'reactstrap';
@@ -10,18 +11,11 @@ import { ListGroup} from 'reactstrap';
 class UserList extends Component{
 
     state={
-        users:{},
+        users:null,
         toggle:false
     };
 
     componentDidMount()
-    {
-        axios.get('/users.json').then (response =>{
-            this.setState({users:response.data})
-        }).catch(error=>console.log(error));
-    }
-
-    componentDidUpdate()
     {
         axios.get('/users.json').then (response =>{
             this.setState({users:response.data})
@@ -38,7 +32,7 @@ class UserList extends Component{
     render() {
 
         let UserList= null;
-        if(this.state.users !== {})
+        if(this.state.users)
         {
             UserList= Object.keys(this.state.users)
             .map(singleUser => {

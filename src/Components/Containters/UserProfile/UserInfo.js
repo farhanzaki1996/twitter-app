@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios'
-import { Card,CardText, CardBody,
+import { Card,CardBody,
   CardTitle, ListGroup,ListGroupItem } from 'reactstrap';
 import './User.css'
 
