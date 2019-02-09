@@ -73,47 +73,47 @@ onChangeHandler=(event)=>
           <Col md={6}>
             <FormGroup>
               <label className='label'>Email</label>
-              <Input onChange={(event)=>this.onChangeHandler(event)} type="email" name="email" placeholder="Enter Your Email" />
+              <Input onChange={(event)=>this.onChangeHandler(event)} type="email" name="email" placeholder="Enter Your Email" required='true'/>
             </FormGroup>
           </Col>
           <Col md={6}>
             <FormGroup>
               <Label className='label' color='red'>Password</Label>
-              <Input onChange={(event)=>this.onChangeHandler(event)} type="password" name="password" placeholder="Enter Password" />
+              <Input onChange={(event)=>this.onChangeHandler(event)} type="password" name="password" placeholder="Enter Password" required='true'/>
             </FormGroup>
           </Col>
         </Row>
         <Col md={6}>
             <FormGroup>
             <Label className='label'>Full Name</Label>
-              <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="name" placeholder='Full Name' />
+              <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="name" placeholder='Full Name' required='true' />
             </FormGroup>
           </Col>
         <FormGroup>
           <Label className='label'>Address</Label>
-          <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="address" placeholder="Address"/>
+          <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="address" placeholder="Address" required='true'/>
         </FormGroup>
         <FormGroup>
           <Label for="exampleAddress2" className='label'>Address Line Two</Label>
-          <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="address2"  placeholder="Apartment, studio, or floor"/>
+          <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="address2"  placeholder="Apartment, studio, or floor" required='true'/>
         </FormGroup>
         <Row form>
           <Col md={6}>
             <FormGroup>
               <Label for="exampleAddress2" className='label'>City</Label>
-              <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="city"/>
+              <Input onChange={(event)=>this.onChangeHandler(event)} type="text" name="city" required='true'/>
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
               <Label for="exampleAddress2" className='label'>State</Label>
-              <Input className={classes.un} onChange={(event)=>this.onChangeHandler(event)} type="text" name="townState" id="exampleState"/>
+              <Input className={classes.un} onChange={(event)=>this.onChangeHandler(event)} type="text" name="townState" id="exampleState" required='true'/>
             </FormGroup>
           </Col>
           <Col md={2}>
             <FormGroup>
               <Label for="exampleZip" className='label'>Zip</Label>
-              <Input className={classes.un} onChange={(event)=>this.onChangeHandler(event)} type="text" name="zip" id="exampleZip"/>
+              <Input className={classes.un} onChange={(event)=>this.onChangeHandler(event)} type="text" name="zip" id="exampleZip" required='true'/>
             </FormGroup>  
           </Col>
         </Row>
